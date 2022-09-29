@@ -22,7 +22,10 @@
 
 	"settings": {
 		"terminal.integrated.defaultProfile.linux": "zsh"
-	}
+	},
+	"extensions": [
+		"prisma.prisma"
+	]
 
 	// Use 'forwardPorts' to make a list of ports inside the container available locally.
 	// "forwardPorts": [],
