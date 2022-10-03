@@ -20,8 +20,20 @@ export type outputSearchDTO = {
   total: number;
 };
 
+export type inputCreateDTO = {
+  id?: string;
+  code: string;
+  description: string;
+  room: string;
+  status: boolean;
+  page: number;
+  line: number;
+  labeled: boolean;
+};
+
 export interface PropertyRepositoryInterface {
   add(property: Property): Promise<void>;
+  import(properties: inputCreateDTO[]): Promise<void>;
   all(): Promise<Property[]>;
   changeRoom(property: Property): Promise<void>;
   active(property: Property): Promise<void>;

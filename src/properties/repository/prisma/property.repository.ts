@@ -1,5 +1,6 @@
 import { Property } from "../../domain/entity/property";
 import {
+  inputCreateDTO,
   inputSearchDTO,
   outputSearchDTO,
   PropertyRepositoryInterface,
@@ -10,6 +11,14 @@ export class PropertyRepository implements PropertyRepositoryInterface {
   async add(property: Property): Promise<void> {
     await prisma.properties.create({
       data: property.toJSON(),
+    });
+  }
+
+  async import(properties: inputCreateDTO[]): Promise<void> {
+    properties.forEach(async (property) => {
+      await prisma.properties.create({
+        data: property,
+      });
     });
   }
 
