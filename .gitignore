@@ -1,3 +1,5 @@
 node_modules/
 .docker/zsh/history/.zsh_history
 .env
+tmp/
+prisma/test.db
