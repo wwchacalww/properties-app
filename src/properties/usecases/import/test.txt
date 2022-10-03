@@ -1,0 +1,4 @@
+code;description;room;status;page;line;labeled
+1.203;Armario 2 portas;Sala 11;true;2;13;true
+1.204;Estante 2 portas;Sala 13;true;2;14;true
+4.504.554;Property Test;Sala 02; false;14;23;false

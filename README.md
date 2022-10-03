@@ -17,3 +17,8 @@ Aplicação para organizar o patrimônio escolar
  - [X] Configurar o prisma
  - [X] Criar repositorio
  - [X] Testar repositorio
+
+## Infra
+ - [ ] Criar usacases e testar
+ - [ ] Criar constrollers
+ - [ ] Criar rotas com presenters
