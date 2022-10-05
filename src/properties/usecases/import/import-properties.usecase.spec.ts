@@ -13,7 +13,7 @@ describe("Import Properties Usecases Test", () => {
 
     const property = await prisma.properties.findFirst({
       where: {
-        code: "1.203",
+        code: properties[0].code,
       },
     });
 
@@ -29,6 +29,6 @@ describe("Import Properties Usecases Test", () => {
       },
     });
     expect(properties.length).toBe(3);
-    expect(property?.room).toBe("Sala 11");
+    expect(property?.room).toBe("Sem Sala");
   });
 });

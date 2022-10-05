@@ -19,6 +19,7 @@ Aplicação para organizar o patrimônio escolar
  - [X] Testar repositorio
 
 ## Infra
- - [ ] Criar usacases e testar
- - [ ] Criar constrollers
- - [ ] Criar rotas com presenters
+ - [X] Criar usacases e testar
+ - [X] Criar constrollers
+ - [X] Criar rotas com presenters
+ - [ ] Criar e configurar container com postgre
