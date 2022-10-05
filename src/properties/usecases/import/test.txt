@@ -1,4 +1,4 @@
-code;description;room;status;page;line;labeled
-1.203;Armario 2 portas;Sala 11;true;2;13;true
-1.204;Estante 2 portas;Sala 13;true;2;14;true
-4.504.554;Property Test;Sala 02; false;14;23;false
+code;description;room;status;page;line
+00000.237.868;Retroprojetor de Transparencia, 110-220 Volts, M-tes, Mod. 9815 Abg;Sem Sala;0;1;1
+00000.247.129;Cadeira Fixa,assento-encosto Espuma,estr.aco,m-maq-moveis,mod. 1008-;Sala Informática;1;1;2
+00000.248.943;Mesa Redonda,04 Patas Em Aco,tampo Em Madeira,mod.2010,m-maq-moveis ;Sala Leitura;1;1;3
