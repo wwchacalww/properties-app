@@ -40,35 +40,34 @@ export class PropertyRepository implements PropertyRepositoryInterface {
     });
   }
 
-  async changeRoom(property: Property): Promise<void> {
+  async changeRoom(id: string, room: string): Promise<void> {
     await prisma.properties.update({
-      where: { id: property.id },
+      where: { id },
       data: {
-        room: property.room,
+        room,
       },
     });
   }
 
-  async active(property: Property): Promise<void> {
+  async active(id: string): Promise<void> {
     await prisma.properties.update({
-      where: { id: property.id },
+      where: { id: id },
       data: {
         status: true,
       },
     });
   }
 
-  async desactive(property: Property): Promise<void> {
+  async desactive(id: string): Promise<void> {
     await prisma.properties.update({
-      where: { id: property.id },
+      where: { id: id },
       data: {
         status: false,
       },
     });
   }
 
-  async labeled(property: Property): Promise<void> {
-    const { id, labeled } = property;
+  async labeled(id: string, labeled: boolean): Promise<void> {
     await prisma.properties.update({
       where: { id },
       data: {
