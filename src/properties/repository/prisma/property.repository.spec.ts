@@ -92,7 +92,7 @@ describe("Property Repository Integration Test", () => {
 
     entity.room = "sala changed";
 
-    await repository.changeRoom(entity);
+    await repository.changeRoom(entity.id, entity.room);
 
     result = await prisma.properties.findFirst({
       where: { id: entity.id },
@@ -124,14 +124,14 @@ describe("Property Repository Integration Test", () => {
     expect(entity.id).toBe(result?.id);
     expect(result?.status).toBeTruthy();
 
-    await repository.desactive(entity);
+    await repository.desactive(entity.id);
 
     result = await prisma.properties.findFirst({
       where: { id: entity.id },
     });
     expect(result?.status).toBeFalsy();
 
-    await repository.active(entity);
+    await repository.active(entity.id);
     result = await prisma.properties.findFirst({
       where: { id: entity.id },
     });
@@ -164,7 +164,7 @@ describe("Property Repository Integration Test", () => {
 
     entity.labeled = false;
 
-    await repository.labeled(entity);
+    await repository.labeled(entity.id, entity.labeled);
 
     result = await prisma.properties.findFirst({
       where: { id: entity.id },

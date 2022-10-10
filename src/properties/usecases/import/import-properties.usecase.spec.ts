@@ -10,7 +10,6 @@ describe("Import Properties Usecases Test", () => {
     const properties = await usecase.execute(
       "./src/properties/usecases/import/test.txt"
     );
-
     const property = await prisma.properties.findFirst({
       where: {
         code: properties[0].code,

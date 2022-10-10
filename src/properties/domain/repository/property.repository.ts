@@ -35,10 +35,10 @@ export interface PropertyRepositoryInterface {
   add(property: Property): Promise<void>;
   import(properties: inputCreateDTO[]): Promise<void>;
   all(): Promise<Property[]>;
-  changeRoom(property: Property): Promise<void>;
-  active(property: Property): Promise<void>;
-  desactive(property: Property): Promise<void>;
-  labeled(property: Property): Promise<void>;
+  changeRoom(id: string, room: string): Promise<void>;
+  active(id: string): Promise<void>;
+  desactive(id: string): Promise<void>;
+  labeled(id: string, labeled: boolean): Promise<void>;
   listForRoom(input: inputSearchDTO): Promise<void | outputSearchDTO>;
   searchForDescription(input: inputSearchDTO): Promise<void | outputSearchDTO>;
 }

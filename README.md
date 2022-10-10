@@ -22,4 +22,12 @@ Aplicação para organizar o patrimônio escolar
  - [X] Criar usacases e testar
  - [X] Criar constrollers
  - [X] Criar rotas com presenters
- - [ ] Criar e configurar container com postgre
+ - [X] Criar e configurar container com mysql
+
+## Properties - usecases
+ - [X] Listar todos os items
+ - [X] Filtra por local
+ - [X] Busca por nome do item
+ - [X] Informar local do item
+ - [X] Alterar status
+ - [X] Alterar etiquetado ou não etiquetado
