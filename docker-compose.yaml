@@ -5,9 +5,17 @@ services:
     build: .
     container_name: properties-typescript-app
     volumes:
-      - .:/home/node/app
+      - ./node:/home/node/app
     ports:
       - 3000:3000
+
+  react:
+    build: .
+    container_name: properties-typescript-react
+    volumes:
+      - ./react:/home/node/app
+    ports:
+      - 5173:5173
 
   db:
     image: mysql:5.7
