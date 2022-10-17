@@ -1,5 +1,7 @@
-node_modules/
+node/node_modules/
 .docker/zsh/history/.zsh_history
-.env
-tmp/
+node/.env
+node/tmp/
+react/node_modules/
+mysql/
 prisma/test.db

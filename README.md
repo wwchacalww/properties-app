@@ -31,3 +31,8 @@ Aplicação para organizar o patrimônio escolar
  - [X] Informar local do item
  - [X] Alterar status
  - [X] Alterar etiquetado ou não etiquetado
+
+---
+# Instalar React
+
+- [X] Criar ambiente react com vite
