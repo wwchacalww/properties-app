@@ -1,23 +1,20 @@
-import { OutputProperty } from "../../dtos";
+import { outputSearchDTO } from "properties/domain/repository/property.repository";
 import { PropertyRepository } from "../../repository/prisma/property.repository";
 
 export class ListAllPropertiesUseCases {
-  async execute(): Promise<OutputProperty[]> {
+  async execute(): Promise<outputSearchDTO> {
     const repository = new PropertyRepository();
-    const list = await repository.all();
-    return list.map((property) => {
-      const { id, description, code, status, room, page, line, labeled } =
-        property;
-      return {
-        id,
-        code,
-        description,
-        room,
-        status: status ? "encontrado" : "não encontrado",
-        page,
-        line,
-        labeled: labeled ? "etiquetado" : "não etiquetado",
-      };
-    });
+    const properties = await repository.all();
+    return {
+      properties,
+      page: 1,
+      page_start: 1,
+      page_end: 1,
+      per_page: 100,
+      sort_dir: "asc",
+      filter: "description",
+      term: "",
+      total: properties.length,
+    };
   }
 }
