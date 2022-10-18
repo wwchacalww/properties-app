@@ -46,31 +46,29 @@ export function Table(props: TableProps) {
           </thead>
           <tbody>
             {properties.map((property, index) => (
-              <>
-                <tr
-                  key={property.code}
-                  className={
-                    index % 2 === 0
-                      ? "bg-gray-700 rounded h-10 text-gray-400 font-medium"
-                      : "rounded h-10 text-gray-400 font-medium"
-                  }
-                >
-                  <th className="w-36 text-start px-5">{property.code}</th>
-                  <td className="w-[700px] px-5 text-start">
-                    {property.description}
-                  </td>
-                  <td className="w-52 text-start px-5">{property.room}</td>
-                  <td className="w-36 text-start px-5">
-                    {property.status ? "encontrado" : "não encontrado"}
-                  </td>
-                  <td className="w-28 text-start px-5">
-                    {property.labeled ? "sim" : "não"}
-                  </td>
-                  <td className="text-start px-5">
-                    {property.page}-{property.line}
-                  </td>
-                </tr>
-              </>
+              <tr
+                key={property.code}
+                className={
+                  index % 2 === 0
+                    ? "bg-gray-700 rounded h-10 text-gray-400 font-medium"
+                    : "rounded h-10 text-gray-400 font-medium"
+                }
+              >
+                <th className="w-36 text-start px-5">{property.code}</th>
+                <td className="w-[700px] px-5 text-start">
+                  {property.description}
+                </td>
+                <td className="w-52 text-start px-5">{property.room}</td>
+                <td className="w-36 text-start px-5">
+                  {property.status ? "encontrado" : "não encontrado"}
+                </td>
+                <td className="w-28 text-start px-5">
+                  {property.labeled ? "sim" : "não"}
+                </td>
+                <td className="text-start px-5">
+                  {property.page}-{property.line}
+                </td>
+              </tr>
             ))}
           </tbody>
         </table>

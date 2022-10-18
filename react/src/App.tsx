@@ -1,4 +1,7 @@
+import { useEffect, useState } from "react";
 import { Table } from "./Components/Table";
+import { api } from "./Services/api";
+import { outputSearchDTO, PropertyEntity } from "./Services/dtos";
 
 const properties = [
   {
@@ -34,6 +37,13 @@ const properties = [
 ];
 
 function App() {
+  const [patrimonio, setPatrimonio] = useState<outputSearchDTO>();
+  useEffect(() => {
+    api.get<outputSearchDTO>("properties/all").then((response) => {
+      setPatrimonio(response.data);
+    });
+  }, []);
+  console.log(patrimonio);
   return (
     <div className="w-screen h-screen flex flex-col items-center justify-start text-gray-100">
       <header className="h-7 w-screen flex items-center justify-center py-12 border-b-4 border-b-orange-400 ">
@@ -71,14 +81,7 @@ function App() {
           </form>
         </div>
       </div>
-      <Table
-        properties={properties}
-        page={1}
-        page_end={1}
-        page_start={1}
-        per_page={10}
-        total={3}
-      />
+      {patrimonio ? <Table {...patrimonio} /> : <></>}
     </div>
   );
 }
