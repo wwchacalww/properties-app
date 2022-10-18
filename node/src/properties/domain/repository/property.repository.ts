@@ -31,10 +31,13 @@ export type inputCreateDTO = {
   labeled: boolean;
 };
 
+export type inputListAllDTO = Omit<inputSearchDTO, "term">;
+export type outputListAllDTO = Omit<outputSearchDTO, "term">;
+
 export interface PropertyRepositoryInterface {
   add(property: Property): Promise<void>;
   import(properties: inputCreateDTO[]): Promise<void>;
-  all(): Promise<Property[]>;
+  all(input: inputListAllDTO): Promise<void | outputListAllDTO>;
   changeRoom(id: string, room: string): Promise<void>;
   active(id: string): Promise<void>;
   desactive(id: string): Promise<void>;
