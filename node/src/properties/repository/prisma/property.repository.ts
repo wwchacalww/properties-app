@@ -1,7 +1,9 @@
 import { Property } from "../../domain/entity/property";
 import {
   inputCreateDTO,
+  inputListAllDTO,
   inputSearchDTO,
+  outputListAllDTO,
   outputSearchDTO,
   PropertyRepositoryInterface,
 } from "../../domain/repository/property.repository";
@@ -22,22 +24,64 @@ export class PropertyRepository implements PropertyRepositoryInterface {
     });
   }
 
-  async all(): Promise<Property[]> {
-    const properties = await prisma.properties.findMany();
-    return properties.map((property) => {
-      const { id, description, code, status, labeled, room, line, page } =
-        property;
-      return new Property({
-        id,
-        description,
-        code,
-        status,
-        labeled,
-        room,
-        line,
-        page,
+  async all(input: inputListAllDTO): Promise<void | outputListAllDTO> {
+    const {
+      filter = "code",
+      page = 1,
+      per_page = 100,
+      sort_dir = "asc",
+    } = input;
+
+    const skip = page * per_page - per_page;
+    const take = per_page;
+    let orderBy = {};
+
+    if (filter === "description") {
+      orderBy = {
+        description: sort_dir,
+      };
+    } else {
+      orderBy = {
+        code: sort_dir,
+      };
+    }
+
+    const results = await prisma.$transaction([
+      prisma.properties.count(),
+      prisma.properties.findMany({
+        skip,
+        take,
+        orderBy,
+      }),
+    ]);
+
+    if (results[1].length > 0) {
+      const properties = results[1].map((property) => {
+        const { id, description, code, status, labeled, room, line, page } =
+          property;
+        return new Property({
+          id,
+          description,
+          code,
+          status,
+          labeled,
+          room,
+          line,
+          page,
+        });
       });
-    });
+      const total = results[0];
+      return {
+        properties,
+        filter,
+        page,
+        per_page,
+        page_start: 1,
+        page_end: Math.ceil(total / per_page),
+        sort_dir,
+        total,
+      };
+    }
   }
 
   async changeRoom(id: string, room: string): Promise<void> {

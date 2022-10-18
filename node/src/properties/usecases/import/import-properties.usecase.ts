@@ -6,8 +6,6 @@ import { PropertyRepository } from "../../repository/prisma/property.repository"
 import readline from "readline";
 
 export class ImportPropertiesUseCase {
-  private repository = new PropertyRepository();
-
   async loadPropertiesFile(pathFile: string) {
     const allFileContents = fs.readFileSync(pathFile, "utf-8");
     const properties: inputCreateDTO[] = [];
