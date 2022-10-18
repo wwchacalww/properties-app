@@ -17,12 +17,12 @@ describe("List All Properties Usecase test", () => {
 
     expect(result.length).toEqual(3);
 
-    await prisma.properties.deleteMany({
-      where: {
-        id: {
-          in: [result[0].id, result[1].id, result[2].id],
-        },
-      },
-    });
+    // await prisma.properties.deleteMany({
+    //   where: {
+    //     id: {
+    //       in: [result[0].id, result[1].id, result[2].id],
+    //     },
+    //   },
+    // });
   });
 });

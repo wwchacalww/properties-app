@@ -34,7 +34,6 @@ const properties = [
 ];
 
 function App() {
-  const lines = [1, 2, 3, 4, 5, 6, 7];
   return (
     <div className="w-screen h-screen flex flex-col items-center justify-start text-gray-100">
       <header className="h-7 w-screen flex items-center justify-center py-12 border-b-4 border-b-orange-400 ">
