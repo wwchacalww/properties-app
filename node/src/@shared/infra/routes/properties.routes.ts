@@ -4,6 +4,7 @@ import uploadConfig from "../../../config/upload";
 import multer from "multer";
 import { ListAllPropertiesController } from "../../../properties/usecases/list-all/list-all-properties.controller";
 import { ListByRoomPropertiesController } from "../../../properties/usecases/list-by-room/list-by-room-properties.controller";
+import { SearchByDescriptionPropertiesController } from "../../../properties/usecases/search-by-description/search-by-description-properties.controller";
 
 const propertiesRoutes = Router();
 const upload = multer(uploadConfig.upload("./tmp"));
@@ -11,6 +12,8 @@ const upload = multer(uploadConfig.upload("./tmp"));
 const importController = new ImportPropertiesController();
 const listAllController = new ListAllPropertiesController();
 const listByRoomController = new ListByRoomPropertiesController();
+const searchByDescriptionController =
+  new SearchByDescriptionPropertiesController();
 
 propertiesRoutes.post(
   "/import",
@@ -20,5 +23,9 @@ propertiesRoutes.post(
 
 propertiesRoutes.get("/all", listAllController.handle);
 propertiesRoutes.get("/list-by-room", listByRoomController.handle);
+propertiesRoutes.get(
+  "/search-by-description",
+  searchByDescriptionController.handle
+);
 
 export { propertiesRoutes };
