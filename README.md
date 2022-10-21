@@ -33,9 +33,15 @@ Aplicação para organizar o patrimônio escolar
  - [X] Alterar etiquetado ou não etiquetado
 
 ---
-# Instalar React
+# Front-end
 
  - [X] Criar ambiente react com vite
  - [X] Configurar axios
  - [X] Criar paginação
  - [X] Filtrar por tombamento ou descrição do item
+ - [X] Busca por local
+ - [ ] Busca por descrição
+ - [ ] Listar de acordo com o status do item
+ - [ ] Alterar local do item
+ - [ ] Alterar status do item
+ - [ ] Alterar status da etiqueta do item

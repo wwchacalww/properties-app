@@ -13,6 +13,7 @@ interface PropertyInterface {
 
 interface TableProps {
   properties: PropertyInterface[];
+  search: "room" | "description" | "";
   term?: string;
   filter?: "description" | "code";
   page: number;
@@ -22,12 +23,17 @@ interface TableProps {
   sort_dir?: "asc" | "desc";
   total: number;
   onChangePage: (page: number) => void;
-  onFilter: (filter: "description" | "code", sort_dir: "asc" | "desc") => void;
+  onFilter: (
+    filter: "description" | "code",
+    sort_dir: "asc" | "desc",
+    search: "room" | "description" | ""
+  ) => void;
 }
 
 export function Table(props: TableProps) {
   const {
     properties,
+    search,
     term = "",
     filter = "",
     per_page = 100,
@@ -49,14 +55,14 @@ export function Table(props: TableProps) {
               <th className="w-32 text-start px-5">
                 {sort_dir === "asc" ? (
                   <button
-                    onClick={() => onFilter("code", "desc")}
+                    onClick={() => onFilter("code", "desc", search)}
                     className="mr-2"
                   >
                     <SortDescending size={20} />
                   </button>
                 ) : (
                   <button
-                    onClick={() => onFilter("code", "asc")}
+                    onClick={() => onFilter("code", "asc", search)}
                     className="mr-2"
                   >
                     <SortAscending size={20} />
@@ -72,14 +78,14 @@ export function Table(props: TableProps) {
               <th className="w-[700px] px-5 text-start">
                 {sort_dir === "asc" ? (
                   <button
-                    onClick={() => onFilter("description", "desc")}
+                    onClick={() => onFilter("description", "desc", search)}
                     className="mr-2"
                   >
                     <SortDescending size={20} />
                   </button>
                 ) : (
                   <button
-                    onClick={() => onFilter("description", "asc")}
+                    onClick={() => onFilter("description", "asc", search)}
                     className="mr-2"
                   >
                     <SortAscending size={20} />
