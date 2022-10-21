@@ -1,3 +1,6 @@
+import { Pagination } from "../Pagination";
+import { SortAscending, SortDescending } from "phosphor-react";
+
 interface PropertyInterface {
   code: string;
   description: string;
@@ -18,26 +21,77 @@ interface TableProps {
   per_page: number;
   sort_dir?: "asc" | "desc";
   total: number;
+  onChangePage: (page: number) => void;
+  onFilter: (filter: "description" | "code", sort_dir: "asc" | "desc") => void;
 }
+
 export function Table(props: TableProps) {
   const {
     properties,
     term = "",
     filter = "",
+    per_page = 100,
     page,
     page_start,
     page_end,
     sort_dir = "asc",
     total,
+    onChangePage,
+    onFilter,
   } = props;
+
   return (
     <>
       <div className="w-screen flex justify-center px-8">
         <table className="w-full">
           <thead className="gap-3">
             <tr>
-              <th className="w-36 text-start px-5">Tombamento</th>
-              <th className="w-[700px] px-5 text-start">Descrição do item</th>
+              <th className="w-32 text-start px-5">
+                {sort_dir === "asc" ? (
+                  <button
+                    onClick={() => onFilter("code", "desc")}
+                    className="mr-2"
+                  >
+                    <SortDescending size={20} />
+                  </button>
+                ) : (
+                  <button
+                    onClick={() => onFilter("code", "asc")}
+                    className="mr-2"
+                  >
+                    <SortAscending size={20} />
+                  </button>
+                )}
+
+                {filter === "code" ? (
+                  <strong className="text-orange-400">Tomb</strong>
+                ) : (
+                  <span>Tomb</span>
+                )}
+              </th>
+              <th className="w-[700px] px-5 text-start">
+                {sort_dir === "asc" ? (
+                  <button
+                    onClick={() => onFilter("description", "desc")}
+                    className="mr-2"
+                  >
+                    <SortDescending size={20} />
+                  </button>
+                ) : (
+                  <button
+                    onClick={() => onFilter("description", "asc")}
+                    className="mr-2"
+                  >
+                    <SortAscending size={20} />
+                  </button>
+                )}
+
+                {filter === "description" ? (
+                  <strong className="text-orange-400">Descrição do item</strong>
+                ) : (
+                  <span>Descrição do item</span>
+                )}
+              </th>
               <th className="w-52 text-start px-5">Local</th>
               <th className="w-36 text-start px-5">Status</th>
               <th className="w-28 text-start px-5">Etiquetado</th>
@@ -73,33 +127,15 @@ export function Table(props: TableProps) {
           </tbody>
         </table>
       </div>
-      <div className="w-screen flex flex-row justify-between mt-10 px-8">
-        <div>
-          <span>
-            Página {page_start} de {page_end} - {total} items listados
-          </span>
-        </div>
-        <div>
-          <a
-            href="#"
-            className="border w-5 h-5 py-2 px-3 mr-2 rounded bg-blue-500 hover:bg-blue-600"
-          >
-            1
-          </a>
-          <a
-            href="#"
-            className="border w-5 h-5 py-2 px-3 mr-2 rounded bg-blue-800 hover:bg-blue-600"
-          >
-            2
-          </a>
-          <a
-            href="#"
-            className="border w-5 h-5 py-2 px-3 mr-2 rounded bg-blue-800 hover:bg-blue-600"
-          >
-            3
-          </a>
-        </div>
-      </div>
+      <Pagination
+        page_start={page_start}
+        page_end={page_end}
+        listedItens={properties.length}
+        total={total}
+        page={page}
+        per_page={per_page}
+        onChangePage={onChangePage}
+      />
     </>
   );
 }

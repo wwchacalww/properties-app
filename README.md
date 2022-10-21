@@ -35,5 +35,7 @@ Aplicação para organizar o patrimônio escolar
 ---
 # Instalar React
 
-- [X] Criar ambiente react com vite
-- [X] Configurar axios
+ - [X] Criar ambiente react com vite
+ - [X] Configurar axios
+ - [X] Criar paginação
+ - [X] Filtrar por tombamento ou descrição do item

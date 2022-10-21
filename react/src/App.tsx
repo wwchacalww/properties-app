@@ -1,40 +1,7 @@
 import { useEffect, useState } from "react";
 import { Table } from "./Components/Table";
 import { api } from "./Services/api";
-import { outputSearchDTO, PropertyEntity } from "./Services/dtos";
-
-const properties = [
-  {
-    code: "00000.237.868",
-    description:
-      "Retroprojetor de Transparencia, 110/220 Volts, M/tes, Mod. 9815 Abg",
-    room: "Sala da Bete",
-    status: true,
-    labeled: false,
-    page: 1,
-    line: 3,
-  },
-  {
-    code: "00000.335.792",
-    description:
-      "Cadeira, marca Caderode, modelo 811, fixa estofada em espuma, revestida em courvim, estrutura em aço.",
-    room: "Secretaria",
-    status: true,
-    labeled: true,
-    page: 3,
-    line: 14,
-  },
-  {
-    code: "00000.642.012",
-    description:
-      "Equipamento de armazenagem CTC com 06 gavetas, em aço, medindo 120x100x65cm.",
-    room: "sem sala",
-    status: false,
-    labeled: false,
-    page: 8,
-    line: 3,
-  },
-];
+import { outputSearchDTO } from "./Services/dtos";
 
 function App() {
   const [patrimonio, setPatrimonio] = useState<outputSearchDTO>();
@@ -43,7 +10,35 @@ function App() {
       setPatrimonio(response.data);
     });
   }, []);
-  console.log(patrimonio);
+
+  const handleChangePage = async (page: number) => {
+    const response = await api.get<outputSearchDTO>("properties/all", {
+      params: {
+        filter: patrimonio?.filter,
+        sort_dir: patrimonio?.sort_dir,
+        per_page: patrimonio?.per_page,
+        page,
+      },
+    });
+    setPatrimonio(response.data);
+    window.scrollTo(0, 0);
+  };
+
+  const handleFilter = async (
+    filter: "code" | "description",
+    sort_dir: "asc" | "desc"
+  ) => {
+    const response = await api.get<outputSearchDTO>("properties/all", {
+      params: {
+        filter,
+        sort_dir,
+        per_page: patrimonio?.per_page,
+        page: patrimonio?.page,
+      },
+    });
+    setPatrimonio(response.data);
+  };
+
   return (
     <div className="w-screen h-screen flex flex-col items-center justify-start text-gray-100">
       <header className="h-7 w-screen flex items-center justify-center py-12 border-b-4 border-b-orange-400 ">
@@ -81,7 +76,15 @@ function App() {
           </form>
         </div>
       </div>
-      {patrimonio ? <Table {...patrimonio} /> : <></>}
+      {patrimonio ? (
+        <Table
+          onFilter={handleFilter}
+          onChangePage={handleChangePage}
+          {...patrimonio}
+        />
+      ) : (
+        <></>
+      )}
     </div>
   );
 }
