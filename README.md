@@ -45,3 +45,9 @@ Aplicação para organizar o patrimônio escolar
  - [ ] Alterar local do item
  - [ ] Alterar status do item
  - [ ] Alterar status da etiqueta do item
+
+# Back-end
+ - [X] Search-by-description controller e routes
+ - [ ] change-rom
+ - [ ] change status
+ - [ ] change labeled
