@@ -1,10 +1,14 @@
-import { useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Table } from "./Components/Table";
 import { api } from "./Services/api";
 import { outputSearchDTO } from "./Services/dtos";
 
 function App() {
   const [patrimonio, setPatrimonio] = useState<outputSearchDTO>();
+  const [inputRoom, setInputRoom] = useState("");
+  const [inputDescription, setInputDescription] = useState("");
+  const [search, setSearch] = useState<"room" | "description" | "">("");
+
   useEffect(() => {
     api.get<outputSearchDTO>("properties/all").then((response) => {
       setPatrimonio(response.data);
@@ -26,17 +30,67 @@ function App() {
 
   const handleFilter = async (
     filter: "code" | "description",
-    sort_dir: "asc" | "desc"
+    sort_dir: "asc" | "desc",
+    search: "room" | "description" | ""
   ) => {
-    const response = await api.get<outputSearchDTO>("properties/all", {
+    if (search === "") {
+      const response = await api.get<outputSearchDTO>("properties/all", {
+        params: {
+          filter,
+          sort_dir,
+          per_page: patrimonio?.per_page,
+          page: patrimonio?.page,
+        },
+      });
+      setPatrimonio(response.data);
+    }
+
+    if (search === "description") {
+      const response = await api.get<outputSearchDTO>(
+        "properties/search-by-description",
+        {
+          params: {
+            filter,
+            sort_dir,
+            per_page: patrimonio?.per_page,
+            page: patrimonio?.page,
+          },
+        }
+      );
+      setPatrimonio(response.data);
+    } else {
+      const response = await api.get<outputSearchDTO>(
+        "properties/list-by-room",
+        {
+          params: {
+            term: patrimonio?.term,
+            filter,
+            sort_dir,
+            per_page: patrimonio?.per_page,
+            page: patrimonio?.page,
+          },
+        }
+      );
+      setPatrimonio(response.data);
+    }
+  };
+
+  const handleSearchByCode = async (evt: React.MouseEvent) => {
+    evt.preventDefault();
+
+    const response = await api.get<outputSearchDTO>("properties/list-by-room", {
       params: {
-        filter,
-        sort_dir,
+        term: inputRoom,
+        filter: patrimonio?.filter,
+        sort_dir: patrimonio?.sort_dir,
         per_page: patrimonio?.per_page,
         page: patrimonio?.page,
       },
     });
+
     setPatrimonio(response.data);
+    setInputRoom("");
+    setSearch("room");
   };
 
   return (
@@ -68,9 +122,13 @@ function App() {
               className="placeholder:italic placeholder:text-gray-300 block bg-gray-500 w-full border border-slate-300 rounded-md py-2 pl-9 pr-3 shadow-sm focus:outline-none focus:border-sky-500 focus:ring-sky-500 focus:ring-1 sm:text-sm"
               placeholder="Informe o local..."
               type="text"
-              name="search"
+              value={inputRoom}
+              onChange={(e) => setInputRoom(e.target.value)}
             />
-            <button className="h-10 border bg-blue-500 px-3 rounded font-bold hover:bg-blue-300">
+            <button
+              onClick={(evt) => handleSearchByCode(evt)}
+              className="h-10 border bg-blue-500 px-3 rounded font-bold hover:bg-blue-300"
+            >
               Buscar
             </button>
           </form>
@@ -78,6 +136,7 @@ function App() {
       </div>
       {patrimonio ? (
         <Table
+          search={search}
           onFilter={handleFilter}
           onChangePage={handleChangePage}
           {...patrimonio}
