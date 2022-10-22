@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from "react";
+import { Message } from "./Components/Message";
 import { Table } from "./Components/Table";
 import { api } from "./Services/api";
 import { outputSearchDTO } from "./Services/dtos";
@@ -8,6 +9,7 @@ function App() {
   const [inputRoom, setInputRoom] = useState("");
   const [inputDescription, setInputDescription] = useState("");
   const [search, setSearch] = useState<"room" | "description" | "">("");
+  const [msg, setMsg] = useState("");
 
   useEffect(() => {
     api.get<outputSearchDTO>("properties/all").then((response) => {
@@ -50,6 +52,7 @@ function App() {
         "properties/search-by-description",
         {
           params: {
+            term: patrimonio?.term,
             filter,
             sort_dir,
             per_page: patrimonio?.per_page,
@@ -93,6 +96,30 @@ function App() {
     setSearch("room");
   };
 
+  const handleSearchByDescription = async (evt: React.MouseEvent) => {
+    evt.preventDefault();
+
+    try {
+      const response = await api.get<outputSearchDTO>(
+        "properties/search-by-description",
+        {
+          params: {
+            term: inputDescription,
+            filter: patrimonio?.filter,
+            sort_dir: patrimonio?.sort_dir,
+            per_page: patrimonio?.per_page,
+            page: patrimonio?.page,
+          },
+        }
+      );
+      setPatrimonio(response.data);
+      setInputRoom("");
+      setSearch("description");
+      setMsg("");
+    } catch (err: any) {
+      setMsg(err.response.data);
+    }
+  };
   return (
     <div className="w-screen h-screen flex flex-col items-center justify-start text-gray-100">
       <header className="h-7 w-screen flex items-center justify-center py-12 border-b-4 border-b-orange-400 ">
@@ -107,9 +134,13 @@ function App() {
               className="placeholder:italic placeholder:text-gray-300 block bg-gray-500 w-full border border-slate-300 rounded-md py-2 pl-9 pr-3 shadow-sm focus:outline-none focus:border-sky-500 focus:ring-sky-500 focus:ring-1 sm:text-sm"
               placeholder="Descrição do item..."
               type="text"
-              name="search"
+              value={inputDescription}
+              onChange={(e) => setInputDescription(e.target.value)}
             />
-            <button className="h-10 border bg-blue-500 px-3 rounded font-bold hover:bg-blue-300">
+            <button
+              onClick={(evt) => handleSearchByDescription(evt)}
+              className="h-10 border bg-blue-500 px-3 rounded font-bold hover:bg-blue-300"
+            >
               Buscar
             </button>
           </form>
@@ -134,6 +165,8 @@ function App() {
           </form>
         </div>
       </div>
+
+      {msg.length > 0 ? <Message msg={msg} type="error" /> : <></>}
       {patrimonio ? (
         <Table
           search={search}
