@@ -45,8 +45,8 @@ export function Pagination(props: PaginationProps) {
     <div className="w-screen flex flex-row justify-between mt-10  p-8">
       <div>
         <span>
-          Página {page_start} de {page_end} - {listedItens} items listados de um
-          total de {total}
+          Página {page} de {page_end} - {listedItens} items listados de um total
+          de {total}
         </span>
       </div>
       <div>

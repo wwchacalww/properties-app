@@ -6,6 +6,7 @@ export type inputSearchDTO = {
   page?: number;
   per_page?: number;
   sort_dir?: "asc" | "desc";
+  status?: "on" | "off";
 };
 
 export type outputSearchDTO = {
@@ -44,4 +45,5 @@ export interface PropertyRepositoryInterface {
   labeled(id: string, labeled: boolean): Promise<void>;
   listForRoom(input: inputSearchDTO): Promise<void | outputSearchDTO>;
   searchForDescription(input: inputSearchDTO): Promise<void | outputSearchDTO>;
+  search(term: string): Promise<void | Property[]>;
 }

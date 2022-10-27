@@ -1,7 +1,13 @@
 import { Pagination } from "../Pagination";
-import { SortAscending, SortDescending } from "phosphor-react";
+import {
+  SortAscending,
+  SortDescending,
+  ToggleLeft,
+  ToggleRight,
+} from "phosphor-react";
 
 interface PropertyInterface {
+  id: string;
   code: string;
   description: string;
   room: string;
@@ -14,8 +20,9 @@ interface PropertyInterface {
 interface TableProps {
   properties: PropertyInterface[];
   search: "room" | "description" | "";
+  toggleStatus?: boolean;
   term?: string;
-  filter?: "description" | "code";
+  filter?: "description" | "code" | "room";
   page: number;
   page_start: number;
   page_end: number;
@@ -24,15 +31,18 @@ interface TableProps {
   total: number;
   onChangePage: (page: number) => void;
   onFilter: (
-    filter: "description" | "code",
+    filter: "description" | "code" | "room",
     sort_dir: "asc" | "desc",
     search: "room" | "description" | ""
   ) => void;
+  onChangeStatus: (status?: boolean) => void;
+  onChangeItemStatus: (id: string, status: boolean) => Promise<boolean>;
 }
 
 export function Table(props: TableProps) {
   const {
     properties,
+    toggleStatus,
     search,
     term = "",
     filter = "",
@@ -44,6 +54,8 @@ export function Table(props: TableProps) {
     total,
     onChangePage,
     onFilter,
+    onChangeStatus,
+    onChangeItemStatus,
   } = props;
 
   return (
@@ -99,7 +111,22 @@ export function Table(props: TableProps) {
                 )}
               </th>
               <th className="w-52 text-start px-5">Local</th>
-              <th className="w-36 text-start px-5">Status</th>
+              <th className="w-36 text-start px-5 flex flex-row justify-between items-center">
+                Status
+                {toggleStatus === undefined ? (
+                  <button onClick={() => onChangeStatus(true)}>
+                    <ToggleLeft size={24} />
+                  </button>
+                ) : toggleStatus === true ? (
+                  <button onClick={() => onChangeStatus(false)}>
+                    <ToggleRight size={24} className="text-green-300" />
+                  </button>
+                ) : (
+                  <button onClick={() => onChangeStatus(true)}>
+                    <ToggleLeft size={24} />
+                  </button>
+                )}
+              </th>
               <th className="w-28 text-start px-5">Etiquetado</th>
               <th className="text-start px-5">Página-Linha</th>
             </tr>
@@ -119,8 +146,20 @@ export function Table(props: TableProps) {
                   {property.description}
                 </td>
                 <td className="w-52 text-start px-5">{property.room}</td>
-                <td className="w-36 text-start px-5">
-                  {property.status ? "encontrado" : "não encontrado"}
+                <td className="w-36 text-start px-5 flex flex-row justify-start items-center">
+                  {property.status ? (
+                    <button
+                      onClick={() => onChangeItemStatus(property.id, false)}
+                    >
+                      <ToggleRight size={24} className="text-green-300" />
+                    </button>
+                  ) : (
+                    <button
+                      onClick={() => onChangeItemStatus(property.id, true)}
+                    >
+                      <ToggleLeft size={24} />
+                    </button>
+                  )}
                 </td>
                 <td className="w-28 text-start px-5">
                   {property.labeled ? "sim" : "não"}

@@ -12,7 +12,7 @@ export type PropertyEntity = {
 export type outputSearchDTO = {
   properties: PropertyEntity[];
   term: string;
-  filter: "description" | "code";
+  filter: "description" | "room" | "code";
   page: number;
   page_start: number;
   page_end: number;
