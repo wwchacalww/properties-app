@@ -41,7 +41,7 @@ Aplicação para organizar o patrimônio escolar
  - [X] Filtrar por tombamento ou descrição do item
  - [X] Busca por local
  - [X] Busca por descrição
- - [ ] Listar de acordo com o status do item
+ - [X] Listar de acordo com o status do item
  - [ ] Alterar local do item
  - [ ] Alterar status do item
  - [ ] Alterar status da etiqueta do item

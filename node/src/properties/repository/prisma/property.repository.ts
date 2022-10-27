@@ -30,11 +30,14 @@ export class PropertyRepository implements PropertyRepositoryInterface {
       page = 1,
       per_page = 100,
       sort_dir = "asc",
+      status,
     } = input;
 
     const skip = page * per_page - per_page;
     const take = per_page;
     let orderBy = {};
+    let findMany = {};
+    let countMany = {};
 
     if (filter === "description") {
       orderBy = {
@@ -46,13 +49,31 @@ export class PropertyRepository implements PropertyRepositoryInterface {
       };
     }
 
-    const results = await prisma.$transaction([
-      prisma.properties.count(),
-      prisma.properties.findMany({
+    if (!status) {
+      findMany = {
         skip,
         take,
         orderBy,
-      }),
+      };
+    } else {
+      findMany = {
+        where: {
+          status: status === "on" ? true : false,
+        },
+        skip,
+        take,
+        orderBy,
+      };
+      countMany = {
+        where: {
+          status: status === "on" ? true : false,
+        },
+      };
+    }
+
+    const results = await prisma.$transaction([
+      prisma.properties.count(countMany),
+      prisma.properties.findMany(findMany),
     ]);
 
     if (results[1].length > 0) {
@@ -265,6 +286,35 @@ export class PropertyRepository implements PropertyRepositoryInterface {
         sort_dir,
         total,
       };
+    }
+  }
+
+  async search(term: string): Promise<void | Property[]> {
+    const result = await prisma.properties.findMany({
+      where: {
+        description: {
+          contains: term,
+        },
+      },
+    });
+
+    if (result.length > 0) {
+      const properties = result.map((property) => {
+        const { id, description, code, status, labeled, room, line, page } =
+          property;
+        return new Property({
+          id,
+          description,
+          code,
+          status,
+          labeled,
+          room,
+          line,
+          page,
+        });
+      });
+
+      return properties;
     }
   }
 }
